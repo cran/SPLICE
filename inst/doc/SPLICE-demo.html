@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>SPLICE: A Synthetic Paid Loss and Incurred Cost Experience Simulator</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">SPLICE: A Synthetic Paid Loss and Incurred Cost Experience Simulator</h1>
+
+
+
+<p>This vignette aims to illustrate how the <code>SPLICE</code> package can be used to generate the case estimates of incurred losses of individual claims.</p>
+<p><code>SPLICE</code> (<strong>S</strong>ynthetic <strong>P</strong>aid <strong>L</strong>oss and <strong>I</strong>ncurred <strong>C</strong>ost <strong>E</strong>xperience) is built on an existing simulator of <strong>paid</strong> claim experience called <a href="https://CRAN.R-project.org/package=SynthETIC"><code>SynthETIC</code></a>, which offers flexible modelling of occurrence, notification, as well as the timing and magnitude of individual partial payments (see the <a href="https://CRAN.R-project.org/package=SynthETIC">package documentation and vignette</a> for a detailed example on how to use the package to simulate paid claims experience).</p>
+<p><code>SPLICE</code> enables the modelling of incurred loss estimates, via the following three modules:</p>
+<ol style="list-style-type: decimal">
+<li><a href="#majRev"><em>Major Revision Histories</em></a>: <a href="#majRev_freq">Frequency</a>, <a href="#majRev_time">Time</a> and <a href="#majRev_size">Size</a> of major revisions of incurred losses</li>
+<li><a href="#minRev"><em>Minor Revision Histories</em></a>: <a href="#minRev_freq">Frequency</a>, <a href="#minRev_time">Time</a> and <a href="#minRev_size">Size</a> of minor revisions of incurred losses</li>
+<li><a href="#claim_history"><em>Development of Case Estimates</em></a>: Consolidation of payments and incurred revisions, including optional adjustment for inflation in the case estimates.</li>
+</ol>
+<div id="set-up" class="section level2">
+<h2>Set Up</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SPLICE)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: SynthETIC</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20201006</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ref_claim <span class="ot">&lt;-</span> <span class="fu">return_parameters</span>()[<span class="dv">1</span>] <span class="co"># 200,000</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>time_unit <span class="ot">&lt;-</span> <span class="fu">return_parameters</span>()[<span class="dv">2</span>] <span class="co"># 0.25</span></span></code></pre></div>
+<p>For the definition and functionality of <code>ref_claim</code> and <code>time_unit</code>, we refer to the documentation of <a href="https://CRAN.R-project.org/package=SynthETIC"><code>SynthETIC</code></a>.</p>
+<p>For this demo, we will start with the paid losses simulated by the example implementation of <code>SynthETIC</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>test_claims <span class="ot">&lt;-</span> SynthETIC<span class="sc">::</span>test_claims_object</span></code></pre></div>
+<p>and simulate the case estimates of incurred losses of the 3624 indidual claims included in the <code>claims</code> object above.</p>
+</div>
+<div id="default-implementation" class="section level2">
+<h2>0. Default Implementation</h2>
+<p>Sections 1-3 introduce the three modelling steps in detail and include extensive examples on how to replace the default implementation with sampling distributions deemed appropriate by the individual users of the program. For those who prefer to stick to the default assumptions, the following code is all that is required to generate the full incurred history:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># major revisions</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> <span class="fu">claim_majRev_freq</span>(test_claims)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> <span class="fu">claim_majRev_time</span>(test_claims, major)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> <span class="fu">claim_majRev_size</span>(major)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># minor revisions</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> <span class="fu">claim_minRev_freq</span>(test_claims)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> <span class="fu">claim_minRev_time</span>(test_claims, minor)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> <span class="fu">claim_minRev_size</span>(test_claims, major, minor)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># development of case estimates</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">claim_history</span>(test_claims, major, minor)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>test_inflated <span class="ot">&lt;-</span> <span class="fu">claim_history</span>(test_claims, major, minor,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                               <span class="at">base_inflation_vector =</span> <span class="fu">rep</span>((<span class="dv">1</span> <span class="sc">+</span> <span class="fl">0.02</span>)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>) <span class="sc">-</span> <span class="dv">1</span>, <span class="at">times =</span> <span class="dv">80</span>))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># transactional data</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>test_incurred_dataset_noInf <span class="ot">&lt;-</span> <span class="fu">generate_incurred_dataset</span>(test_claims, test)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>test_incurred_dataset_inflated <span class="ot">&lt;-</span> <span class="fu">generate_incurred_dataset</span>(test_claims, test_inflated)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># incurred cumulative triangles</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>incurred_inflated <span class="ot">&lt;-</span> <span class="fu">output_incurred</span>(test_inflated, <span class="at">incremental =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+</div>
+<div id="majRev" class="section level2">
+<h2>1. Major Revisions</h2>
+<p>This section introduces a suite of functions that works together to simulate, in sequential order, the (1) frequency, (2) time, and (3) size of major revisions of incurred loss, for each of the claims occurring in each of the occurrence periods.</p>
+<p>In particular, <code>claim_majRev_freq()</code> sets up the structure of the major revisions: a nested list such that the <em>j</em>th component of the <em>i</em>th sub-list is a list of information on major revisions of the <em>j</em>th claim of occurrence period <em>i</em>. The “unit list” (i.e. the smallest, innermost sub-list) contains the following components:</p>
+<table>
+<colgroup>
+<col width="23%" />
+<col width="76%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>majRev_freq</code></td>
+<td align="left">Number of major revisions of incurred loss; see <a href="#majRev_freq"><code>claim_majRev_freq()</code></a></td>
+</tr>
+<tr class="even">
+<td align="left"><code>majRev_time</code></td>
+<td align="left">Time of major revisions (from claim notification); see <a href="#majRev_time"><code>claim_majRev_time()</code></a></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>majRev_factor</code> Maj</td>
+<td align="left">or revision multiplier of <strong>incurred loss</strong>; see <a href="#majRev_size"><code>claim_majRev_size()</code></a></td>
+</tr>
+<tr class="even">
+<td align="left"><code>majRev_atP</code></td>
+<td align="left">An indicator, <code>1</code> if the last major revision occurs at the time of the last major payment (i.e. second last payment), <code>0</code> otherwise; see <a href="#majRev_time"><code>claim_majRev_time()</code></a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="majRev_freq" class="section level2">
+<h2>1.1 Frequency of Major Revisions</h2>
+<p><code>claim_majRev_freq()</code> generates the number of major revisions associated with a particular claim, from a user-defined random generation function. Users are free to choose <em>any</em> distribution (through the argument <code>rfun</code>), whether it be a pre-defined distribution in <code>R</code>, or more advanced ones from packages, or a proper user-defined function, to better match their own claim experience.</p>
+<p>Let <span class="math inline">\(K\)</span> represent the number of major revisions associated with a particular claim. The notification of a claim is considered as a major revision, so all claims have at least 1 major revision (<span class="math inline">\(K \ge 1\)</span>).</p>
+<div id="ex1.1.1" class="section level3">
+<h3>Example 1.1.1 Zero-truncated Poisson distribution</h3>
+<p>One possible sampling distribution for this is the zero-truncated Poisson distribution from the <code>actuar</code> package.</p>
+<p><code>SPLICE</code> by default assumes the (removable) dependence of frequency of major revisions on claim size, which means that the user can specify the <code>lambda</code> parameter in <code>actuar::rztpois</code> as a <code>paramfun</code> (<em>param</em>eter <em>fun</em>ction) of <code>claim_size</code> (and possibly more, see <a href="#ex1.1.2">Example 1.1.2</a>).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## paramfun input</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># lambda as a function of claim size</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>no_majRev_param <span class="ot">&lt;-</span> <span class="cf">function</span>(claim_size) {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  majRevNo_mean <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="dv">1</span>, <span class="fu">log</span>(claim_size <span class="sc">/</span> <span class="dv">15000</span>) <span class="sc">-</span> <span class="dv">2</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">lambda =</span> majRevNo_mean)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="do">## implementation and output</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>major_test <span class="ot">&lt;-</span> <span class="fu">claim_majRev_freq</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  test_claims, <span class="at">rfun =</span> actuar<span class="sc">::</span>rztpois, <span class="at">paramfun =</span> no_majRev_param)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># show the distribution of number of major revisions</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">unlist</span>(major_test))</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    1    2    3    4    5    6    7 </span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1958 1084  418  124   32    5    3</span></span></code></pre></div>
+</div>
+<div id="ex1.1.2" class="section level3">
+<h3>Example 1.1.2 Additional dependencies</h3>
+<p>Like <a href="https://CRAN.R-project.org/package=SynthETIC"><code>SynthETIC</code></a>, users of <code>SPLICE</code> are able to add further dependencies in their simulation. This is illustrated in the example below.</p>
+<p>Suppose we would like to add the additional dependence of <code>claim_majRev_freq</code> (number of major revisions) on the number of partial payments of the claim - which is not natively included in <code>SPLICE</code> default setting. For example, let’s consider the following parameter function:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## paramfun input</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># an extended parameter function</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>majRevNo_param <span class="ot">&lt;-</span> <span class="cf">function</span>(claim_size, no_payment) {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  majRevNo_mean <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="dv">0</span>, <span class="fu">log</span>(claim_size <span class="sc">/</span> <span class="dv">1500000</span>)) <span class="sc">+</span> no_payment <span class="sc">/</span> <span class="dv">10</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">lambda =</span> majRevNo_mean)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>As this parameter function is dependent on <code>no_payment</code>, it should not come at a surprise that we need to supply the number of partial payments when calling <code>claim_majRev_freq()</code>. We need to make sure that the argument names are matched exactly (<code>no_payment</code> in this example) and that the input is specified as a vector of simulated quantities (not a list).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## implementation and output</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>no_payments_vect <span class="ot">&lt;-</span> <span class="fu">unlist</span>(test_claims<span class="sc">$</span>no_payments_list)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># sample the frequency of major revisions from zero-truncated Poisson</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># with parameters above</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>major_test <span class="ot">&lt;-</span> <span class="fu">claim_majRev_freq</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  test_claims, <span class="at">rfun =</span> actuar<span class="sc">::</span>rztpois, <span class="at">paramfun =</span> majRevNo_param,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">no_payment =</span> no_payments_vect)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># show the distribution of number of major revisions</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">unlist</span>(major_test))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    1    2    3    4    5    6    7 </span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2818  621  146   28    7    3    1</span></span></code></pre></div>
+</div>
+<div id="ex1.1.3" class="section level3">
+<h3>Example 1.1.3 Default implementation</h3>
+<p>The default <code>claim_majRev_freq()</code> assumes that no additional major revisions will occur for claims of size smaller than or equal to a <code>claim_size_benchmark</code>. For claims above this threshold, a maximum of 3 major revisions can occur and the larger the claim size, the more likely there will be more major revisions.</p>
+<p><strong>There is no need to specify a sampling distribution if the user is happy with the default specification.</strong> This example is mainly to demonstrate how the default function works, and at the same time, to provide an example that one can modify to input a random sampling distribution of their choosing.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># package default function for frequency of major revisions</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>dflt.majRev_freq_function <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  n, claim_size, <span class="at">claim_size_benchmark =</span> <span class="fl">0.075</span> <span class="sc">*</span> ref_claim) {</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># construct the range indicator</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> (claim_size <span class="sc">&gt;</span> claim_size_benchmark)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># if claim_size &lt;= claim_size_benchmark</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># &quot;small&quot; claims assumed to have no major revisions except at notification</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  no_majRev <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, n)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># if claim_size is above the benchmark</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># probability of 2 major revisions, increases with claim size</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  Pr2 <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">min</span>(<span class="dv">1</span>, (claim_size[test] <span class="sc">-</span> <span class="fl">0.075</span> <span class="sc">*</span> ref_claim)<span class="sc">/</span>(<span class="fl">0.925</span> <span class="sc">*</span> ref_claim))</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># probability of 3 major revisions, increases with claim size</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  Pr3 <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">min</span>(<span class="dv">1</span>, <span class="fu">max</span>(<span class="dv">0</span>, claim_size[test] <span class="sc">-</span> <span class="fl">0.25</span> <span class="sc">*</span> ref_claim)<span class="sc">/</span>(<span class="fl">0.75</span> <span class="sc">*</span> ref_claim))</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># probability of 1 major revision i.e. only one at claim notification</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  Pr1 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> Pr2 <span class="sc">-</span> Pr3</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  no_majRev[test] <span class="ot">&lt;-</span> <span class="fu">sample</span>(</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">size =</span> <span class="fu">sum</span>(test), <span class="at">replace =</span> T, <span class="at">prob =</span> <span class="fu">c</span>(Pr1, Pr2, Pr3))</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  no_majRev</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Since the random function directly takes <code>claim_size</code> as an input, no additional parameterisation is required (unlike in Examples <a href="#ex1.1.1">1</a> and <a href="#ex1.1.2">2</a>, where we first need a <code>paramfun</code> that turns the <code>claim_size</code> into the <code>lambda</code> parameter required in a zero-truncated Poisson distribution). Here we can simply run <code>claim_majRev_freq()</code> without inputting a <code>paramfun</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## implementation and output</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate the number of major revisions</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> <span class="fu">claim_majRev_freq</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">claims =</span> test_claims,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">rfun =</span> dflt.majRev_freq_function</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># show the distribution of number of major revisions</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">unlist</span>(major))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    1    2    3 </span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1877  309 1438</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># view the major revision history of the first claim in the 1st occurrence period</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># note that the time and size of the major revisions are yet to be generated</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>major[[<span class="dv">1</span>]][[<span class="dv">1</span>]]</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_freq</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_time</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_factor</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_atP</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span></code></pre></div>
+<p>Note that <code>SPLICE</code> by default assumes the (removable) dependence of frequency of major revisions on claim size, hence there is no need to supply any additional arguments to <code>claim_majRev_freq()</code>, unlike in <a href="#ex1.1.2">Example 1.1.2</a>.</p>
+<p>If one would like to keep the structure of the default sampling function but modify the benchmark value, they may do so via e.g.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>major_test <span class="ot">&lt;-</span> <span class="fu">claim_majRev_freq</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">claims =</span> test_claims,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">claim_size_benchmark =</span> <span class="dv">30000</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+</div>
+<div id="majRev_time" class="section level2">
+<h2>1.2 Time of Major Revisions</h2>
+<p><code>claim_majRev_time()</code> generates the epochs of the major revisions (time measured from claim notification). It takes a very similar structure as <a href="#majRev_freq"><code>claim_majRev_freq()</code></a>, allowing users to input a sampling distribution via <code>rfun</code> and a parameter function which relates the parameter(s) of the distribution to selected claim characteristics.</p>
+<p>Let <span class="math inline">\(\tau_k\)</span> represent the epoch of the <span class="math inline">\(k\)</span>th major revision (time measured from claim notification), <span class="math inline">\(k = 1, ..., K\)</span>. As the notification of a claim is considered a major revision itself, we have <span class="math inline">\(\tau_1 = 0\)</span> for all claims.</p>
+<div id="ex1.2.1" class="section level3">
+<h3>Example 1.2.1 Modified uniform distribution</h3>
+<p>One simplistic option is to use a modified version of the uniform distribution (modified such that the first major revision always occurs at time 0 i.e. at claim notification).</p>
+<p><code>majRev_time_paramfun</code> in the example below specifies the <code>min</code> and <code>max</code> parameters for an individual claim as a function of <code>setldel</code> (settlement delay). Note that <code>SPLICE</code> by default assumes the (removable) dependence of timing of major revisions on claim size, settlement delay, and the partial payment times. Thanks to that, there is no need to supply any additional arguments to <code>claim_majRev_time()</code>. Users who wish to add further dependencies to the simulator can refer to <a href="#ex1.1.2">Example 1.1.2</a>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>majRev_time_rfun <span class="ot">&lt;-</span> <span class="cf">function</span>(n, min, max) {</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n = number of major revisions of an individual claim</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  majRev_time <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length =</span> n)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  majRev_time[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># first major revision at notification</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (n <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    majRev_time[<span class="dv">2</span><span class="sc">:</span>n] <span class="ot">&lt;-</span> <span class="fu">sort</span>(stats<span class="sc">::</span><span class="fu">runif</span>(n <span class="sc">-</span> <span class="dv">1</span>, min, max))</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(majRev_time)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>majRev_time_paramfun <span class="ot">&lt;-</span> <span class="cf">function</span>(setldel, ...) {</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># setldel = settlement delay</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">min =</span> setldel<span class="sc">/</span><span class="dv">3</span>, <span class="at">max =</span> setldel)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="do">## implementation and output</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>major_test <span class="ot">&lt;-</span> <span class="fu">claim_majRev_time</span>(</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  test_claims, major, <span class="at">rfun =</span> majRev_time_rfun, <span class="at">paramfun =</span> majRev_time_paramfun</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>major_test[[<span class="dv">1</span>]][[<span class="dv">1</span>]]</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_freq</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_time</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  0.00000 13.01127 14.13173</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_factor</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_atP</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+</div>
+<div id="ex1.2.2" class="section level3">
+<h3>Example 1.2.2 Default implementation</h3>
+<p>The default implementation takes into account much complexity from the real-life claim process. It assumes that with a positive probability, the last major revision for a claim may coincide with the second last partial payment (which is usually the major settlement payment). In such cases, <code>majRev_atP</code> would be set to 1 indicating that there is a major revision simultaneous with the penultimate payment.</p>
+<p>The epochs of the remaining major revisions are sampled from triangular distributions with maximum density at the earlier part of the claim’s lifetime.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## package default function for time of major revisions</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>dflt.majRev_time_function <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n = number of major revisions</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># setldel = settlement delay</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># penultimate_delay = time from claim notification to second last payment</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  n, claim_size, setldel, penultimate_delay) {</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  majRev_time <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="at">times =</span> n)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># first revision at notification</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  majRev_time[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (n <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if the claim has multiple major revisions</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the probability of having the last revision exactly at the second last partial payment</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fl">0.2</span> <span class="sc">*</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">min</span>(<span class="dv">1</span>, <span class="fu">max</span>(<span class="dv">0</span>, (claim_size <span class="sc">-</span> ref_claim) <span class="sc">/</span> (<span class="dv">14</span> <span class="sc">*</span> ref_claim)))</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    at_second_last_pmt <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">-</span>p, p))</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># does the last revision occur at the second last partial payment?</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (at_second_last_pmt <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>      <span class="co"># -&gt; no revision at second last payment</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>      majRev_time[<span class="dv">2</span><span class="sc">:</span>n] <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">rtri</span>(n <span class="sc">-</span> <span class="dv">1</span>, <span class="at">min =</span> setldel<span class="sc">/</span><span class="dv">3</span>, <span class="at">max =</span> setldel, <span class="at">mode =</span> setldel<span class="sc">/</span><span class="dv">3</span>))</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>      <span class="co"># -&gt; yes, revision at second last payment</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>      majRev_time[n] <span class="ot">&lt;-</span> penultimate_delay</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (n <span class="sc">&gt;</span> <span class="dv">2</span>) {</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>        majRev_time[<span class="dv">2</span><span class="sc">:</span>(n<span class="dv">-1</span>)] <span class="ot">&lt;-</span> <span class="fu">sort</span>(</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>          <span class="fu">rtri</span>(n <span class="sc">-</span> <span class="dv">2</span>, <span class="at">min =</span> majRev_time[n]<span class="sc">/</span><span class="dv">3</span>, <span class="at">max =</span> majRev_time[n], <span class="at">mode =</span> majRev_time[n]<span class="sc">/</span><span class="dv">3</span>))</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>  majRev_time</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Note that <code>rtri</code> is a function to generate random numbers from a triangular distribution that is included as part of the <code>SPLICE</code> package.</p>
+<p><code>claim_size</code> and <code>setldel</code> are both directly accessible claim characteristics, but we need <code>paramfun</code> to take care of the computation of <code>penultimate_delay</code> as a function of the partial payment delays that we can access.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dflt.majRev_time_paramfun <span class="ot">&lt;-</span> <span class="cf">function</span>(payment_delays, ...) {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">penultimate_delay =</span> <span class="fu">sum</span>(payment_delays[<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(payment_delays) <span class="sc">-</span> <span class="dv">1</span>]),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    ...)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## implementation and output</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> <span class="fu">claim_majRev_time</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">claims =</span> test_claims,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">majRev_list =</span> major, <span class="co"># we will update the previous major list</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">rfun =</span> dflt.majRev_time_function,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">paramfun =</span> dflt.majRev_time_paramfun</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># view the major revision history of the first claim in the 1st occurrence period</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># observe that we have now updated the time of major revisions</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>major[[<span class="dv">1</span>]][[<span class="dv">1</span>]]</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_freq</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_time</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  0.000000  7.727115 14.203130</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_factor</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_atP</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+<p>The above sampling distribution has been included as the default. <strong>There is no need to reproduce the above code if the user is happy with this default distribution.</strong> A simple equivalent to the above code is just</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> <span class="fu">claim_majRev_time</span>(<span class="at">claims =</span> test_claims, <span class="at">majRev_list =</span> major)</span></code></pre></div>
+<p>This example is here only to demonstrate how the default function operates.</p>
+</div>
+</div>
+<div id="majRev_size" class="section level2">
+<h2>1.3 Size of Major Revisions</h2>
+<p><code>claim_majRev_size()</code> generates the sizes of the major revisions. The major revision multipliers apply to the incurred loss estimates, that is, a revision multiplier of 2.54 means that at the time of the major revision the incurred loss increases by a factor of 2.54. We highlight this as in the case of minor revisions, the multipliers will instead apply to outstanding claim amounts, see <a href="#minRev_size">claim_minRev_size()</a>.</p>
+<p>The reason for this differentiation is that major revisions represent a total change of perspective on ultimate incurred cost, whereas minor revisions respond more to matters of detail, causing the case estimator to apply a revision factor to the estimate of outstanding payments.</p>
+<div id="ex1.3.1" class="section level3">
+<h3>Example 1.3.1 Gamma distribution</h3>
+<p>Suppose that we believe the major revision multipliers follow a gamma distribution with parameters dependent on the size of the claim. Then we can set up the simulation in the following way:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>majRev_size_rfun <span class="ot">&lt;-</span> <span class="cf">function</span>(n, shape, rate) {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n = number of major revisions of an individual claim</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  majRev_size <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length =</span> n)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  majRev_size[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># first major revision at notification</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (n <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    majRev_size[<span class="dv">2</span><span class="sc">:</span>n] <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">rgamma</span>(n <span class="sc">-</span> <span class="dv">1</span>, shape, rate)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  majRev_size</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>majRev_size_paramfun <span class="ot">&lt;-</span> <span class="cf">function</span>(claim_size) {</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  shape <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">log</span>(claim_size <span class="sc">/</span> <span class="dv">5000</span>), <span class="dv">1</span>)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  rate <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">/</span> shape</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">shape =</span> shape, <span class="at">rate =</span> rate)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>The <a href="#ex1.3.2">default implementation of <code>claim_majRev_size()</code></a> assumes no further dependencies on claim characteristics. Hence we need to supply <code>claim_size</code> as an additional argument when running <code>claim_majRev_size()</code> when the above set up.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## implementation and output</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>claim_size_vect <span class="ot">&lt;-</span> <span class="fu">unlist</span>(test_claims<span class="sc">$</span>claim_size_list)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>major_test <span class="ot">&lt;-</span> <span class="fu">claim_majRev_size</span>(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">majRev_list =</span> major,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">rfun =</span> majRev_size_rfun,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">paramfun =</span> majRev_size_paramfun,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">claim_size =</span> claim_size_vect</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># view the major revision history of the first claim in the 1st occurrence period</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co"># observe that we have now updated the size of major revisions</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>major_test[[<span class="dv">1</span>]][[<span class="dv">1</span>]]</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_freq</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_time</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  0.000000  7.727115 14.203130</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_factor</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.0000000 0.9597788 2.0640283</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_atP</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+</div>
+<div id="ex1.3.2" class="section level3">
+<h3>Example 1.3.2 Default implementation</h3>
+<p>The default implementation samples the major revision multipliers from lognormal distributions:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># package default function for sizes of major revisions</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>dflt.majRev_size_function <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  majRev_factor <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="at">times =</span> n)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># set revision size = 1 for first revision (i.e. the one at notification)</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  majRev_factor[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (n <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if the claim has multiple major revisions</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    majRev_factor[<span class="dv">2</span>] <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">rlnorm</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">meanlog =</span> <span class="fl">1.8</span>, <span class="at">sdlog =</span> <span class="fl">0.2</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (n <span class="sc">&gt;</span> <span class="dv">2</span>) {</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>      <span class="co"># the last revision factor depends on what happened at the second major revision</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>      mu <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fl">0.07</span> <span class="sc">*</span> (<span class="dv">6</span> <span class="sc">-</span> majRev_factor[<span class="dv">2</span>])</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>      majRev_factor[<span class="dv">3</span>] <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">rlnorm</span>(<span class="at">n =</span> <span class="dv">1</span>, <span class="at">meanlog =</span> mu, <span class="at">sdlog =</span> <span class="fl">0.1</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  majRev_factor</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="do">## implementation and output</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> <span class="fu">claim_majRev_size</span>(</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">majRev_list =</span> major,</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">rfun =</span> dflt.majRev_size_function</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="co"># view the major revision history of the first claim in the 1st occurrence period</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="co"># observe that we have now updated the size of major revisions</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>major[[<span class="dv">1</span>]][[<span class="dv">1</span>]]</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_freq</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_time</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  0.000000  7.727115 14.203130</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_factor</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.000000 5.165349 2.619366</span></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $majRev_atP</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+<p>For this particular claim record, we observe 3 major revisions:</p>
+<ul>
+<li>First one at claim notification with revision size <span class="math inline">\(g_1 =\)</span> 1 (note that the notification of a claim is considered as a major revision, so all claims have at least 1 major revision);</li>
+<li>Second one at delay <span class="math inline">\(\tau_2 =\)</span> 7.7271155 from notification and has revision size of <span class="math inline">\(g_2 =\)</span> 5.1653486 on the incurred loss;</li>
+<li>Third one at delay <span class="math inline">\(\tau_3 =\)</span> 14.2031298 from notification and has revision size of <span class="math inline">\(g_3 =\)</span> 2.6193658 on the incurred loss. As commented in the paper, a claim may experience up to two major revisions in addition to the initial one, but the second, if it occurs at all, is likely to be smaller than the first.</li>
+</ul>
+</div>
+</div>
+<div id="minRev" class="section level2">
+<h2>2. Minor Revisions</h2>
+<p>Compared to the major revisions, the simulation of minor revisions may require slightly more complicated input specification, as we need to separate the case of minor revisions that occur simultaneously with a partial payment (<code>minRev_atP</code>) and the ones that do not.</p>
+<p>Similar to the case of major revisions, the suite of functions under this heading run in sequential order to simulate the (1) frequency, (2) time, and (3) size of minor revisions of outstanding claim payments, for each of the claims occurring in each of the occurrence periods. In particular, <code>claim_minRev_freq()</code> sets up the structure of the minor revisions: a nested list such that the <em>j</em>th component of the <em>i</em>th sub-list is a list of information on minor revisions of the <em>j</em>th claim of occurrence period <em>i</em>. The “unit list” contains the following components:</p>
+<table>
+<colgroup>
+<col width="31%" />
+<col width="68%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>minRev_atP</code></td>
+<td align="left">A logical vector indicating whether there is a minor revision at each partial payment; see <a href="#minRev_freq"><code>claim_minRev_freq()</code></a></td>
+</tr>
+<tr class="even">
+<td align="left"><code>minRev_freq_atP</code> (<code>minRev_freq_notatP</code>)</td>
+<td align="left">Number of minor revisions that occur (or do not occur) simultaneously with a partial payment. <code>minRev_freq_atP</code> is numerically equal to the sum of <code>minRev_atP</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>minRev_time_atP</code>, (<code>minRev_time_notatP</code>)</td>
+<td align="left">Time of minor revisions that occur (or do not occur) simultaneously with a partial payment (time measured from claim notification); see <a href="#minRev_time"><code>claim_minRev_time()</code></a></td>
+</tr>
+<tr class="even">
+<td align="left"><code>minRev_factor_atP</code>, (<code>minRev_factor_notatP</code>)</td>
+<td align="left">Minor revision multiplier of <strong>outstanding claim payments</strong> for revisions at partial payments and at any other times, respectively; see <a href="#minRev_size"><code>claim_minRev_size()</code></a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="minRev_freq" class="section level2">
+<h2>2.1 Frequency of Minor Revisions</h2>
+<p>Minor revisions may occur simultaneously with a partial payment, or at any other time:</p>
+<ul>
+<li>For the former case, we sample the occurrence of minor revisions as Bernoulli random variables with a probability parameter <code>prob_atP</code> (defaults to 1/2);</li>
+<li>For the latter case, users have the option to specify an <code>rfun_notatP</code> for simulation and a <code>paramfun_notatP</code> to input the parameters for the sampling distribution, much in the same way as <a href="#majRev_freq">the analogous case of major revisions</a>. The default implementation assumes a geometric distribution with mean = <code>min(3, setldel / 4)</code> and is illustrated below.</li>
+</ul>
+<div id="ex2.1.1" class="section level3">
+<h3>Example 2.1.1 Default implementation</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># package default function for frequency of minor revisions at partial payments</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>dflt.minRev_freq_notatP_function <span class="ot">&lt;-</span> <span class="cf">function</span>(n, setldel) {</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># setldel = settlement delay</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  minRev_freq_notatP <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">rgeom</span>(n, <span class="at">prob =</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="fu">min</span>(<span class="dv">3</span>, setldel<span class="sc">/</span><span class="dv">4</span>) <span class="sc">+</span> <span class="dv">1</span>))</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  minRev_freq_notatP</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="do">## implementation and output</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> <span class="fu">claim_minRev_freq</span>(</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  test_claims,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob_atP =</span> <span class="fl">0.5</span>,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">rfun_notatP =</span> dflt.minRev_freq_notatP_function)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co"># view the minor revision history of the 10th claim in the 1st occurrence period</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>minor[[<span class="dv">1</span>]][[<span class="dv">10</span>]]</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_atP</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 1 0 0 1</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_freq_atP</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_freq_notatP</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_time_atP</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_time_notatP</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_factor_atP</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_factor_notatP</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span></code></pre></div>
+<p>An equivalent way of setting up the same structure using <code>paramfun</code>:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>minRev_freq_notatP_paramfun <span class="ot">&lt;-</span> <span class="cf">function</span>(setldel) {</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">prob =</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="fu">min</span>(<span class="dv">3</span>, setldel<span class="sc">/</span><span class="dv">4</span>) <span class="sc">+</span> <span class="dv">1</span>))</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> <span class="fu">claim_minRev_freq</span>(</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  test_claims,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob_atP =</span> <span class="fl">0.5</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">rfun_notatP =</span> stats<span class="sc">::</span>rgeom,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">paramfun_notatP =</span> minRev_freq_notatP_paramfun)</span></code></pre></div>
+<p>Again the above example is only for illustrative purposes and users can run the default without explicitly spelling out the sampling distributions as above:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> <span class="fu">claim_minRev_freq</span>(<span class="at">claims =</span> test_claims)</span></code></pre></div>
+</div>
+<div id="ex2.1.2" class="section level3">
+<h3>Example 2.1.2 Alternative sampling distribution</h3>
+<p>Suppose we believe that there should be no minor revisions at partial payments (<code>prob_atP = 0</code>) and that the number of minor revisions should follow a geometric distribution but with a higher mean. <code>SPLICE</code> can easily account for these assumptions through the following code.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>minRev_freq_notatP_paramfun <span class="ot">&lt;-</span> <span class="cf">function</span>(setldel) {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">prob =</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="fu">min</span>(<span class="dv">3</span>, setldel<span class="sc">/</span><span class="dv">4</span>) <span class="sc">+</span> <span class="dv">2</span>))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>minor_test <span class="ot">&lt;-</span> <span class="fu">claim_minRev_freq</span>(</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  test_claims,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob_atP =</span> <span class="dv">0</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">rfun_notatP =</span> stats<span class="sc">::</span>rgeom,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">paramfun_notatP =</span> minRev_freq_notatP_paramfun)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>minor_test[[<span class="dv">1</span>]][[<span class="dv">10</span>]]</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_atP</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0 0 0 0 0</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_freq_atP</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_freq_notatP</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_time_atP</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_time_notatP</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_factor_atP</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_factor_notatP</span></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span></code></pre></div>
+</div>
+</div>
+<div id="minRev_time" class="section level2">
+<h2>2.2 Time of Minor Revisions</h2>
+<p><code>claim_minRev_time()</code> generates the epochs of the minor revisions (time measured from claim notification). Note that there is no need to specify a random sampling function for minor revisions that occur simultaneously with a partial payment because the revision times simply coincide with the epochs of the relevant partial payments.</p>
+<p>For revisions outside of the partial payments, users are free to input a sampling distribution via <code>rfun_notatP</code> and a parameter function <code>paramfun_notatP</code> which relates the parameter(s) of the distribution to selected claim characteristics.</p>
+<div id="ex2.2.1" class="section level3">
+<h3>Example 2.2.1 Default implementation</h3>
+<p>By default we assume that the epochs of the minor revision can be sampled from a uniform distribution:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># package default function for time of minor revisions that do not coincide with a payment</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>dflt.minRev_time_notatP <span class="ot">&lt;-</span> <span class="cf">function</span>(n, setldel) {</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(stats<span class="sc">::</span><span class="fu">runif</span>(n, <span class="at">min =</span> setldel<span class="sc">/</span><span class="dv">6</span>, <span class="at">max =</span> setldel))</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="do">## implementation and output</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> <span class="fu">claim_minRev_time</span>(</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">claims =</span> test_claims,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">minRev_list =</span> minor, <span class="co"># we will update the previous minor list</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">rfun_notatP =</span> dflt.minRev_time_notatP</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co"># view the minor revision history of the 10th claim in the 1st occurrence period</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co"># observe that we have now updated the time of minor revisions</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>minor[[<span class="dv">1</span>]][[<span class="dv">10</span>]]</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_atP</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 1 0 0 1</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_freq_atP</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_freq_notatP</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_time_atP</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7911041 2.8190765 6.7787507</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_time_notatP</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5.835193</span></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_factor_atP</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_factor_notatP</span></span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span></code></pre></div>
+</div>
+<div id="ex2.2.2" class="section level3">
+<h3>Example 2.2.2 Alternative sampling distribution</h3>
+<p>Let’s consider an alternative example where we believe the epochs of minor revisions better follow a triangular distribution (see <code>?triangular</code> from <code>SPLICE</code>). This can be set up as follows:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>minRev_time_notatP_rfun <span class="ot">&lt;-</span> <span class="cf">function</span>(n, setldel) {</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n = number of minor revisions</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># setldel = settlement delay</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="fu">rtri</span>(n, <span class="at">min =</span> setldel<span class="sc">/</span><span class="dv">6</span>, <span class="at">max =</span> setldel, <span class="at">mode =</span> setldel<span class="sc">/</span><span class="dv">6</span>))</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="do">## implementation and output</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>minor_test <span class="ot">&lt;-</span> <span class="fu">claim_minRev_time</span>(</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">claims =</span> test_claims,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">minRev_list =</span> minor, <span class="co"># we will update the previous minor list</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">rfun_notatP =</span> minRev_time_notatP_rfun</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co"># view the minor revision history of the 10th claim in the 1st occurrence period</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co"># observe that we have now updated the time of minor revisions</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>minor_test[[<span class="dv">1</span>]][[<span class="dv">10</span>]]</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_atP</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 1 0 0 1</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_freq_atP</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_freq_notatP</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_time_atP</span></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7911041 2.8190765 6.7787507</span></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_time_notatP</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.702022</span></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_factor_atP</span></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_factor_notatP</span></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span></code></pre></div>
+</div>
+</div>
+<div id="minRev_size" class="section level2">
+<h2>2.3 Size of Minor Revisions</h2>
+<p><code>claim_minRev_size()</code> generates the sizes of the minor revisions. Unlike the major revision multipliers which apply to the <strong>incurred loss estimates</strong>, the minor revision multipliers apply to the case estimate of <strong>outstanding claim payments</strong> i.e. a revision multiplier of 2.54 means that at the time of the minor revision the outstanding claims payment increases by a factor of 2.54. The reason for making this differentiation is briefly explained <a href="#majRev_size">here</a>.</p>
+<p><code>SPLICE</code> assumes a common sampling distribution for minor revisions that occur at partial payments and those that occur at any other times. But users may provide separate parameter functions (<code>paramfun_atP</code> and <code>paramfun_notatP</code>) for the two cases.</p>
+<div id="ex2.3.1" class="section level3">
+<h3>Example 2.3.1 Default implementation</h3>
+<p>In the default setting, we incorporate sampling dependence on the delay from notification to settlement, the delay from notification to the subject minor revisions, and the history of major revisions (in particular, the time of the second major revision).</p>
+<p>Let <span class="math inline">\(\tau\)</span> denote the delay from notification to the epoch of the minor revision, and <span class="math inline">\(w\)</span> the settlement delay. Then</p>
+<ul>
+<li>For <span class="math inline">\(\tau \le \frac{w}{3}\)</span>, the revision multiplier is sampled from a lognormal distribution with parameters <code>meanlog = 0.15</code> and <code>sdlog = 0.05</code> if preceded by a 2nd major revision, <code>sdlog = 0.1</code> otherwise;</li>
+<li>For <span class="math inline">\(\frac{w}{3} &lt; \tau \le \frac{2w}{3}\)</span>, the revision multiplier is sampled from a lognormal distribution with parameters <code>meanlog = 0</code> and <code>sdlog = 0.05</code> if preceded by a 2nd major revision, <code>sdlog = 0.1</code> otherwise;</li>
+<li>For <span class="math inline">\(\tau &gt; \frac{2w}{3}\)</span>, the revision multiplier is sampled from a lognormal distribution with parameters <code>meanlog = -0.1</code> and <code>sdlog = 0.05</code> if preceded by a 2nd major revision, <code>sdlog = 0.1</code> otherwise.</li>
+</ul>
+<p>Note that minor revisions tend to be upward in the early part of a claim’s life, and downward in the latter part.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># package default function for the size of minor revisions</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>dflt.minRev_size <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n = number of minor revisions</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># minRev_time = epochs of the minor revisions (from claim notification)</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># majRev_time_2nd = epoch of 2nd major revision (from claim notification)</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># setldel = settlement delay</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  n, minRev_time, majRev_time_2nd, setldel) {</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">length</span>(minRev_time)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  minRev_factor <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">length =</span> k)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (k <span class="sc">&gt;=</span> <span class="dv">1</span>) {</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>k) {</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>      curr <span class="ot">&lt;-</span> minRev_time[i]</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (curr <span class="sc">&lt;=</span> setldel<span class="sc">/</span><span class="dv">3</span>) {</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>        meanlog <span class="ot">&lt;-</span> <span class="fl">0.15</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> <span class="cf">if</span> (curr <span class="sc">&lt;=</span> (<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">*</span> setldel) {</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>        meanlog <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>        meanlog <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.1</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>      sdlog <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(curr <span class="sc">&gt;</span> majRev_time_2nd, <span class="fl">0.05</span>, <span class="fl">0.1</span>)</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>      minRev_factor[i] <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">rlnorm</span>(<span class="at">n =</span> <span class="dv">1</span>, meanlog, sdlog)</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>  minRev_factor</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>While <code>setldel</code> (settlement delay) is a directly accessible claim characteristic, we need <code>paramfun</code> to take care of the extraction and computation of <code>majRev_time_2nd</code> and <code>minRev_time</code> as a function of the revision lists that we can access.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># parameter function for minor revision at payments</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>minRev_size_param_atP <span class="ot">&lt;-</span> <span class="cf">function</span>(major, minor, setldel) {</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">minRev_time =</span> minor<span class="sc">$</span>minRev_time_atP,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">majRev_time_2nd =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>         <span class="co"># so it always holds minRev_time &lt; majRev_time_2nd</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">is.na</span>(major<span class="sc">$</span>majRev_time[<span class="dv">2</span>]), setldel <span class="sc">+</span> <span class="dv">1</span>, major<span class="sc">$</span>majRev_time[<span class="dv">2</span>]),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">setldel =</span> setldel)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co"># parameter function for minor revisions NOT at payments</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>minRev_size_param_notatP <span class="ot">&lt;-</span> <span class="cf">function</span>(major, minor, setldel) {</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">minRev_time =</span> minor<span class="sc">$</span>minRev_time_notatP,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">majRev_time_2nd =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>         <span class="co"># so it always holds minRev_time &lt; majRev_time_2nd</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>         <span class="fu">is.na</span>(major<span class="sc">$</span>majRev_time[<span class="dv">2</span>]), setldel <span class="sc">+</span> <span class="dv">1</span>, major<span class="sc">$</span>majRev_time[<span class="dv">2</span>]),</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">setldel =</span> setldel)</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## implementation and output</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> <span class="fu">claim_minRev_size</span>(</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">claims =</span> test_claims,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">majRev_list =</span> major,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">minRev_list =</span> minor,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">rfun =</span> dflt.minRev_size,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">paramfun_atP =</span> minRev_size_param_atP,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">paramfun_notatP =</span> minRev_size_param_notatP</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co"># view the minor revision history of the 10th claim in the 1st occurrence period</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co"># observe that we have now updated the size of minor revisions</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>minor[[<span class="dv">1</span>]][[<span class="dv">10</span>]]</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_atP</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 1 0 0 1</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_freq_atP</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_freq_notatP</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_time_atP</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7911041 2.8190765 6.7787507</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_time_notatP</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5.835193</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_factor_atP</span></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9613874 0.9873257 0.9366064</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_factor_notatP</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.9107412</span></span></code></pre></div>
+<p>For this particular claim record, we observe 3 minor revisions that coincide with a payment and 1 minor revisions outside of the partial payment times.</p>
+</div>
+<div id="ex2.3.2" class="section level3">
+<h3>Example 2.3.2 Uniform distribution for minor revision multipliers</h3>
+<p>For illustrative purposes, let’s now assume that the minor revision multipliers should be sampled from a uniform distribution.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>paramfun_atP <span class="ot">&lt;-</span> <span class="cf">function</span>(claim_size, ...) {</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">min =</span> <span class="fu">pmin</span>(<span class="dv">1</span>, <span class="fu">pmax</span>(<span class="fu">log</span>(claim_size <span class="sc">/</span> <span class="dv">15000</span>), <span class="fl">0.5</span>)),</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">max =</span> <span class="fu">pmin</span>(<span class="dv">1</span>, <span class="fu">pmax</span>(<span class="fu">log</span>(claim_size <span class="sc">/</span> <span class="dv">15000</span>), <span class="fl">0.5</span>)) <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>paramfun_notatP <span class="ot">&lt;-</span> paramfun_atP</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="do">## implementation and output</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>claim_size_vect <span class="ot">&lt;-</span> <span class="fu">unlist</span>(test_claims<span class="sc">$</span>claim_size_list)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>minor_test <span class="ot">&lt;-</span> <span class="fu">claim_minRev_size</span>(</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  test_claims, major, minor,</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">rfun =</span> stats<span class="sc">::</span>runif, paramfun_atP, paramfun_notatP,</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">claim_size =</span> claim_size_vect)</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>minor_test[[<span class="dv">1</span>]][[<span class="dv">10</span>]]</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_atP</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 1 0 0 1</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_freq_atP</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_freq_notatP</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_time_atP</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.7911041 2.8190765 6.7787507</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_time_notatP</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5.835193</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_factor_atP</span></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8357490 1.3070304 0.8162695</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $minRev_factor_notatP</span></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.487637</span></span></code></pre></div>
+</div>
+</div>
+<div id="claim_history" class="section level2">
+<h2>3. Development of Case Estimates</h2>
+<p>This section requires no additional input specification from the program user (except the quarterly inflation rates - which should match with what was used in <code>SynthETIC::claim_payment_inflation()</code> when generating the inflated amount of partial payments) and simply consolidates the partial payments and the incurred revisions generated above, subject to some additional revision constraints (<code>?claim_history</code> for details). The end product is a full transactional history of the case estimates of the individual claims over its lifetime.</p>
+<p>We can choose to exclude (default) or include adjustment for inflation:</p>
+<div id="implementation-and-output" class="section level3">
+<h3>Implementation and Output</h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># exclude inflation (by default)</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">claim_history</span>(test_claims, major, minor)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># include inflation</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>result_inflated <span class="ot">&lt;-</span> <span class="fu">claim_history</span>(</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  test_claims, major, minor, </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">base_inflation_vector =</span> <span class="fu">rep</span>((<span class="dv">1</span> <span class="sc">+</span> <span class="fl">0.02</span>)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>) <span class="sc">-</span> <span class="dv">1</span>, <span class="at">times =</span> <span class="dv">80</span>))</span></code></pre></div>
+<p>Observe how the results differ between the case estimates with/without inflation:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">generate_incurred_dataset</span>(test_claims_object, result)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    32384 obs. of  9 variables:</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ claim_no  : int  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ claim_size: num  785871 785871 785871 785871 785871 ...</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ txn_time  : num  0.689 3.949 4.198 6.327 7.096 ...</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ txn_delay : num  0 3.26 3.51 5.64 6.41 ...</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ txn_type  : chr  &quot;Ma&quot; &quot;Mi&quot; &quot;P&quot; &quot;Mi&quot; ...</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ incurred  : num  71767 76242 76242 78597 78597 ...</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ OCL       : num  71767 76242 51137 53493 27316 ...</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ cumpaid   : num  0.00 6.55e-11 2.51e+04 2.51e+04 5.13e+04 ...</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ multiplier: num  1 1.06 NA 1.05 NA ...</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data, <span class="at">n =</span> <span class="dv">9</span>)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   claim_no claim_size   txn_time txn_delay txn_type  incurred       OCL</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1        1   785870.8  0.6889986  0.000000       Ma  71766.93  71766.93</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2        1   785870.8  3.9493565  3.260358       Mi  76241.74  76241.74</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        1   785870.8  4.1975938  3.508595        P  76241.74  51136.97</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        1   785870.8  6.3271693  5.638171       Mi  78597.46  53492.68</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5        1   785870.8  7.0960120  6.407013        P  78597.46  27316.06</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6        1   785870.8  8.4161141  7.727115       Ma 405983.27 354701.87</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7        1   785870.8 11.1576971 10.468698      PMi 422014.90 344400.32</span></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8        1   785870.8 14.4457620 13.756763      PMi 379360.08 275404.40</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9        1   785870.8 14.8921284 14.203130       Ma 993682.82 889727.14</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        cumpaid multiplier</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 0.000000e+00  1.0000000</span></span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 6.548362e-11  1.0623521</span></span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 2.510478e+04         NA</span></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 2.510478e+04  1.0460667</span></span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 5.128140e+04         NA</span></span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 5.128140e+04  5.1653486</span></span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7 7.761458e+04  1.0451975</span></span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8 1.039557e+05  0.8761476</span></span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9 1.039557e+05  2.6193658</span></span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>data_inflated <span class="ot">&lt;-</span> <span class="fu">generate_incurred_dataset</span>(test_claims_object, result_inflated)</span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data_inflated)</span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    32384 obs. of  9 variables:</span></span>
+<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ claim_no  : int  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ claim_size: num  785871 785871 785871 785871 785871 ...</span></span>
+<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ txn_time  : num  0.689 3.949 4.198 6.327 7.096 ...</span></span>
+<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ txn_delay : num  0 3.26 3.51 5.64 6.41 ...</span></span>
+<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ txn_type  : chr  &quot;Ma&quot; &quot;Mi&quot; &quot;P&quot; &quot;Mi&quot; ...</span></span>
+<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ incurred  : num  71514 77210 77210 80528 80528 ...</span></span>
+<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ OCL       : num  71514 77210 51578 54896 27784 ...</span></span>
+<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ cumpaid   : num  0.00 2.18e-11 2.56e+04 2.56e+04 5.27e+04 ...</span></span>
+<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ multiplier: num  1 1.06 NA 1.05 NA ...</span></span>
+<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_inflated, <span class="at">n =</span> <span class="dv">9</span>)</span>
+<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   claim_no claim_size   txn_time txn_delay txn_type   incurred       OCL</span></span>
+<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1        1   785870.8  0.6889986  0.000000       Ma   71514.42  71514.42</span></span>
+<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2        1   785870.8  3.9493565  3.260358       Mi   77209.73  77209.73</span></span>
+<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        1   785870.8  4.1975938  3.508595        P   77209.73  51577.79</span></span>
+<span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        1   785870.8  6.3271693  5.638171       Mi   80528.15  54896.21</span></span>
+<span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5        1   785870.8  7.0960120  6.407013        P   80528.15  27783.67</span></span>
+<span id="cb29-54"><a href="#cb29-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6        1   785870.8  8.4161141  7.727115       Ma  420279.94 367535.46</span></span>
+<span id="cb29-55"><a href="#cb29-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7        1   785870.8 11.1576971 10.468698      PMi  442861.81 362288.63</span></span>
+<span id="cb29-56"><a href="#cb29-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8        1   785870.8 14.4457620 13.756763      PMi  404523.03 295655.95</span></span>
+<span id="cb29-57"><a href="#cb29-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9        1   785870.8 14.8921284 14.203130       Ma 1061937.89 953070.80</span></span>
+<span id="cb29-58"><a href="#cb29-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        cumpaid multiplier</span></span>
+<span id="cb29-59"><a href="#cb29-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 0.000000e+00  1.0000000</span></span>
+<span id="cb29-60"><a href="#cb29-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 2.182787e-11  1.0623521</span></span>
+<span id="cb29-61"><a href="#cb29-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 2.563194e+04         NA</span></span>
+<span id="cb29-62"><a href="#cb29-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 2.563194e+04  1.0460667</span></span>
+<span id="cb29-63"><a href="#cb29-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 5.274448e+04         NA</span></span>
+<span id="cb29-64"><a href="#cb29-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 5.274448e+04  5.1653486</span></span>
+<span id="cb29-65"><a href="#cb29-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7 8.057318e+04  1.0451975</span></span>
+<span id="cb29-66"><a href="#cb29-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8 1.088671e+05  0.8761476</span></span>
+<span id="cb29-67"><a href="#cb29-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9 1.088671e+05  2.6193658</span></span></code></pre></div>
+<p>Note that the above <code>data</code> and <code>data_inflated</code> datasets are included as part of the package as <code>test_incurred_dataset_noInf</code> and <code>test_incurred_dataset_inflated</code>:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(test_incurred_dataset_noInf)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    31250 obs. of  9 variables:</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ claim_no  : int  1 1 1 1 1 1 1 1 1 2 ...</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ claim_size: num  785871 785871 785871 785871 785871 ...</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ txn_time  : num  0.689 4.198 7.096 8.554 11.158 ...</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ txn_delay : num  0 3.51 6.41 7.86 10.47 ...</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ txn_type  : chr  &quot;Ma&quot; &quot;P&quot; &quot;P&quot; &quot;Ma&quot; ...</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ incurred  : num  64033 64033 64033 339643 345196 ...</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ OCL       : num  64033 38928 12752 288361 267581 ...</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ cumpaid   : num  0 25105 51281 51281 77615 ...</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ multiplier: num  1 NA NA 5.3 1.02 ...</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(test_incurred_dataset_inflated)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    31250 obs. of  9 variables:</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ claim_no  : int  1 1 1 1 1 1 1 1 1 2 ...</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ claim_size: num  785871 785871 785871 785871 785871 ...</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ txn_time  : num  0.689 4.198 7.096 8.554 11.158 ...</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ txn_delay : num  0 3.51 6.41 7.86 10.47 ...</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ txn_type  : chr  &quot;Ma&quot; &quot;P&quot; &quot;P&quot; &quot;Ma&quot; ...</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ incurred  : num  63905 63905 63905 352421 362839 ...</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ OCL       : num  63905 38273 11160 299677 282266 ...</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ cumpaid   : num  0 25632 52744 52744 80573 ...</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ multiplier: num  1 NA NA 5.3 1.02 ...</span></span></code></pre></div>
+</div>
+</div>
+<div id="output-chain-ladder-incurred-triangles" class="section level2">
+<h2>Output: Chain-Ladder Incurred Triangles</h2>
+<p><code>SPLICE</code> also provides an option to produce the incurred triangles aggregated by accident and development periods:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>square_inc <span class="ot">&lt;-</span> <span class="fu">output_incurred</span>(result)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>square_cum <span class="ot">&lt;-</span> <span class="fu">output_incurred</span>(result, <span class="at">incremental =</span> F)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>square_inflated_inc <span class="ot">&lt;-</span> <span class="fu">output_incurred</span>(result_inflated)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>square_inflated_cum <span class="ot">&lt;-</span> <span class="fu">output_incurred</span>(result_inflated, <span class="at">incremental =</span> F)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>yearly_inc <span class="ot">&lt;-</span> <span class="fu">output_incurred</span>(result, <span class="at">aggregate_level =</span> <span class="dv">4</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>yearly_cum <span class="ot">&lt;-</span> <span class="fu">output_incurred</span>(result, <span class="at">aggregate_level =</span> <span class="dv">4</span>, <span class="at">incremental =</span> F)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>yearly_cum</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           DP1      DP2      DP3      DP4      DP5      DP6      DP7      DP8</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP1  21846312 37758611 49627375 55794329 58767892 62366936 62902546 62486029</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP2  17989801 37594432 48227626 50816309 55323643 55641507 55534306 57396402</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP3  18299898 38378501 46407079 53043975 55787454 57065817 57598917 57953386</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP4  17313124 34289765 44952334 51129516 53734088 54468306 55962256 56407511</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP5  20511783 42211689 54327913 60431132 62285147 61654702 62794043 63144648</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP6  21436730 39448518 47811984 53766037 57768597 58088457 58712026 58376682</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP7  20186643 35172249 44256497 48936876 54586154 55642298 54895552 55403589</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP8  13077553 29871334 42877233 45884245 47782393 49904558 49836704 49896893</span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP9  19941842 41091858 50342713 56461572 56659111 55898789 56698061 57343630</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP10 19402526 40737328 52180283 57487056 56801187 55745586 55940701 56276123</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           DP9     DP10</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP1  61739214 61995953</span></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP2  59477258 59229413</span></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP3  57966421 57805433</span></span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP4  56206775 55752961</span></span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP5  62825138 62572956</span></span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP6  58348050 58322971</span></span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP7  55341593 55297816</span></span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP8  49803452 49725363</span></span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP9  57979184 57712377</span></span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP10 56238590 56093866</span></span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a><span class="co"># apply standard actuarial reserving techniques using the `ChainLadder` package</span></span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a><span class="co"># selected &lt;- attr(ChainLadder::ata(yearly_cum), &quot;vwtd&quot;)</span></span></code></pre></div>
+<p>We can also set <code>future = FALSE</code> to hide the future triangle and perform a chain-ladder analysis using the <code>ChainLadder</code> package:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># output the past cumulative triangle</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>cumtri <span class="ot">&lt;-</span> <span class="fu">output_incurred</span>(result, <span class="at">aggregate_level =</span> <span class="dv">4</span>, </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">incremental =</span> <span class="cn">FALSE</span>, <span class="at">future =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the age to age factors</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>selected <span class="ot">&lt;-</span> <span class="fu">attr</span>(ChainLadder<span class="sc">::</span><span class="fu">ata</span>(cumtri), <span class="st">&quot;vwtd&quot;</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co"># complete the triangle</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>CL_prediction <span class="ot">&lt;-</span> cumtri</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="fu">nrow</span>(cumtri)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>J) {</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> (J <span class="sc">-</span> i <span class="sc">+</span> <span class="dv">2</span>)<span class="sc">:</span>J) {</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    CL_prediction[i, j] <span class="ot">&lt;-</span> CL_prediction[i, j <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">*</span> selected[j <span class="sc">-</span> <span class="dv">1</span>]</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>CL_prediction</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           DP1      DP2      DP3      DP4      DP5      DP6      DP7      DP8</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP1  21846312 37758611 49627375 55794329 58767892 62366936 62902546 62486029</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP2  17989801 37594432 48227626 50816309 55323643 55641507 55534306 57396402</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP3  18299898 38378501 46407079 53043975 55787454 57065817 57598917 57953386</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP4  17313124 34289765 44952334 51129516 53734088 54468306 55962256 56534496</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP5  20511783 42211689 54327913 60431132 62285147 61654702 62314234 62951426</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP6  21436730 39448518 47811984 53766037 57768597 58839322 59468737 60076832</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP7  20186643 35172249 44256497 48936876 51750611 52709794 53273640 53818388</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP8  13077553 29871334 42877233 47771337 50518056 51454394 52004811 52536584</span></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP9  19941842 41091858 52770452 58793790 62174269 63326652 64004069 64658540</span></span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP10 19402526 38192007 49046443 54644714 57786634 58857693 59487304 60095590</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           DP9     DP10</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP1  61739214 61995953</span></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP2  59477258 59724590</span></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP3  58598287 58841964</span></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP4  57163608 57401319</span></span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP5  63651944 63916636</span></span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP6  60745363 60997968</span></span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP7  54417275 54643565</span></span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP8  53121207 53342108</span></span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP9  65378055 65649926</span></span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AP10 60764328 61017013</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
