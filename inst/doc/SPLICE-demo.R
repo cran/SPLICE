@@ -262,7 +262,7 @@ major[[1]][[1]]
 
 ## -----------------------------------------------------------------------------
 ## input
-# package default function for frequency of minor revisions at partial payments
+# package default function for frequency of minor revisions NOT at partial payments
 dflt.minRev_freq_notatP_function <- function(n, setldel) {
   # setldel = settlement delay
   minRev_freq_notatP <- stats::rgeom(n, prob = 1 / (min(3, setldel/4) + 1))

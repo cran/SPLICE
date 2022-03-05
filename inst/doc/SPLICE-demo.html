@@ -204,8 +204,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">Time of major revisions (from claim notification); see <a href="#majRev_time"><code>claim_majRev_time()</code></a></td>
 </tr>
 <tr class="odd">
-<td align="left"><code>majRev_factor</code> Maj</td>
-<td align="left">or revision multiplier of <strong>incurred loss</strong>; see <a href="#majRev_size"><code>claim_majRev_size()</code></a></td>
+<td align="left"><code>majRev_factor</code></td>
+<td align="left">Major revision multiplier of <strong>incurred loss</strong>; see <a href="#majRev_size"><code>claim_majRev_size()</code></a></td>
 </tr>
 <tr class="even">
 <td align="left"><code>majRev_atP</code></td>
@@ -582,7 +582,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="ex2.1.1" class="section level3">
 <h3>Example 2.1.1 Default implementation</h3>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># package default function for frequency of minor revisions at partial payments</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># package default function for frequency of minor revisions NOT at partial payments</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>dflt.minRev_freq_notatP_function <span class="ot">&lt;-</span> <span class="cf">function</span>(n, setldel) {</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># setldel = settlement delay</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  minRev_freq_notatP <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">rgeom</span>(n, <span class="at">prob =</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="fu">min</span>(<span class="dv">3</span>, setldel<span class="sc">/</span><span class="dv">4</span>) <span class="sc">+</span> <span class="dv">1</span>))</span>

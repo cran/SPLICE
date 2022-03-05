@@ -77,11 +77,11 @@ In particular, `claim_majRev_freq()` sets up the structure of the major revision
 -------------------------------------------------------------------------------
 Name               Description
 -----------------  ------------------------------------------------------------
-`majRev_freq`         Number of major revisions of incurred loss; see [`claim_majRev_freq()`](#majRev_freq)
+`majRev_freq`       Number of major revisions of incurred loss; see [`claim_majRev_freq()`](#majRev_freq)
 
 `majRev_time`       Time of major revisions (from claim notification); see [`claim_majRev_time()`](#majRev_time)
 
-`majRev_factor` Major revision multiplier of **incurred loss**; see [`claim_majRev_size()`](#majRev_size)
+`majRev_factor`     Major revision multiplier of **incurred loss**; see [`claim_majRev_size()`](#majRev_size)
 
 `majRev_atP`        An indicator, `1` if the last major revision occurs at the time of the last major payment (i.e. second last payment), `0` otherwise; see [`claim_majRev_time()`](#majRev_time)
 
@@ -408,13 +408,13 @@ Similar to the case of major revisions, the suite of functions under this headin
 -------------------------------------------------------------------------------
 Name                     Description
 -----------------------  ------------------------------------------------------
-`minRev_atP`               A logical vector indicating whether there is a minor revision at each partial payment; see [`claim_minRev_freq()`](#minRev_freq)
+`minRev_atP`              A logical vector indicating whether there is a minor revision at each partial payment; see [`claim_minRev_freq()`](#minRev_freq)
 
 `minRev_freq_atP`
-(`minRev_freq_notatP`)         Number of minor revisions that occur (or do not occur) simultaneously with a partial payment. `minRev_freq_atP` is numerically equal to the sum of `minRev_atP`
+(`minRev_freq_notatP`)    Number of minor revisions that occur (or do not occur) simultaneously with a partial payment. `minRev_freq_atP` is numerically equal to the sum of `minRev_atP`
 
 `minRev_time_atP`,
-(`minRev_time_notatP`)       Time of minor revisions that occur (or do not occur) simultaneously with a partial payment (time measured from claim notification); see [`claim_minRev_time()`](#minRev_time)
+(`minRev_time_notatP`)    Time of minor revisions that occur (or do not occur) simultaneously with a partial payment (time measured from claim notification); see [`claim_minRev_time()`](#minRev_time)
 
 `minRev_factor_atP`,
 (`minRev_factor_notatP`)  Minor revision multiplier of **outstanding claim payments** for revisions at partial payments and at any other times, respectively; see [`claim_minRev_size()`](#minRev_size)
@@ -431,7 +431,7 @@ Minor revisions may occur simultaneously with a partial payment, or at any other
 ### Example 2.1.1 Default implementation {#ex2.1.1}
 ```{r}
 ## input
-# package default function for frequency of minor revisions at partial payments
+# package default function for frequency of minor revisions NOT at partial payments
 dflt.minRev_freq_notatP_function <- function(n, setldel) {
   # setldel = settlement delay
   minRev_freq_notatP <- stats::rgeom(n, prob = 1 / (min(3, setldel/4) + 1))
