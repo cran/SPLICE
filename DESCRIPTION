@@ -1,7 +1,7 @@
 Package: SPLICE
 Title: Synthetic Paid Loss and Incurred Cost Experience (SPLICE)
         Simulator
-Version: 1.1.0
+Version: 1.1.1
 Authors@R: c(
     person("Benjamin", "Avanzi", role = "aut", email = "b.avanzi@unimelb.edu.au"),
     person("Greg", "Taylor", role = "aut", email = "greg_taylor60@hotmail.com"),
@@ -30,10 +30,10 @@ URL: https://github.com/agi-lab/SPLICE
 BugReports: https://github.com/agi-lab/SPLICE/issues
 LazyData: true
 RoxygenNote: 7.1.2
-Suggests: knitr, rmarkdown, dplyr, RColorBrewer, actuar, ChainLadder
+Suggests: knitr, rmarkdown, dplyr, RColorBrewer, actuar
 VignetteBuilder: knitr
 Depends: R (>= 2.10), SynthETIC (>= 1.0.0)
 NeedsCompilation: no
-Packaged: 2022-03-05 03:21:34 UTC; melantha
+Packaged: 2023-04-16 00:06:29 UTC; melantha
 Repository: CRAN
-Date/Publication: 2022-03-05 15:20:05 UTC
+Date/Publication: 2023-04-16 07:40:09 UTC

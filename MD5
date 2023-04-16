@@ -1,6 +1,6 @@
-1770455dd7707ac83c0cb5a8cde21e01 *DESCRIPTION
+3642a11ffaabc59a374e5364ef2bcaf9 *DESCRIPTION
 f149d4eaf1387690a5c5cabc1d9f7f5f *NAMESPACE
-cc0945c6255222f4cef00524deb53b49 *NEWS.md
+3fe77aa03998624af5c322e54491aa5b *NEWS.md
 1afae3bb0092d85adeeb367d137890cb *R/SPLICE-package.R
 0fa41bcd0b292873d6c3793370fa11b5 *R/data.R
 7667997f5c53c9e79971feabb93e3607 *R/features_09_major_revisions.R
@@ -9,12 +9,13 @@ a62897149c75b811c1b06d4f49351164 *R/features_11_incurred_history.R
 20bbfb5a9530e278b38252704c223e4b *R/generate_data.R
 9940413e9f941af11c7a5bdcd9dd1e76 *R/output_incurred.R
 2dd41d8672d2f7fb997faa09c7148363 *R/stats.R
-f1c1b50e4abdf47a972d004e0a26c6c7 *build/vignette.rds
+5f8cd825906fb362d09555f856507282 *build/vignette.rds
 24b36cec6591cd69dd575211caeb43b4 *data/test_incurred_dataset_inflated.rda
 144ad3446aa59e486feeb64e7738aa29 *data/test_incurred_dataset_noInf.rda
-05923f3ffb590be0c9bd246f1420cda8 *inst/doc/SPLICE-demo.R
-8b35e0ebc5d72eb23838cfaffff4957c *inst/doc/SPLICE-demo.Rmd
-82b08a565b4901c846900ca793f9829a *inst/doc/SPLICE-demo.html
+638ec99a2e9687b05c4902d6764eac7d *inst/CITATION
+34989c3c228d572916b93eddad4173bb *inst/doc/SPLICE-demo.R
+d270554cba357d1a134ddbe82751b2bf *inst/doc/SPLICE-demo.Rmd
+35cfb16e5f7edad226b939caa62d5879 *inst/doc/SPLICE-demo.html
 5fd8cff9700353caf492e6ae949ff58d *man/SPLICE-package.Rd
 a4bbe4b39487ac0e4bad93a3865c7ee6 *man/claim_history.Rd
 e2ba8c726fcad86a3e54e1ccb0941d4d *man/claim_majRev.Rd
@@ -32,4 +33,4 @@ b1e2e2c640d519773dcf2e0b26d1dbf9 *man/generate_incurred_dataset.Rd
 5deeeb1980177e0d1cbc1918232c4cbc *man/output_incurred.Rd
 9389266bf2d5fb37bf4912f5cc65001b *man/test_incurred_dataset.Rd
 6933686ab7b037de2047873dbd20b4d0 *man/triangular.Rd
-8b35e0ebc5d72eb23838cfaffff4957c *vignettes/SPLICE-demo.Rmd
+d270554cba357d1a134ddbe82751b2bf *vignettes/SPLICE-demo.Rmd
